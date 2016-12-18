@@ -98,6 +98,9 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 12, 10);
+
+	App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
+	
 	
 	return true;
 }

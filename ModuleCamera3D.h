@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "glmath.h"
 
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -18,6 +19,10 @@ public:
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
 
+	//Follow a body
+	void SelectFollowItem(PhysBody3D* body, float min, float max, float height);
+	void Follow();
+
 private:
 
 	void CalculateViewMatrix();
@@ -29,4 +34,11 @@ public:
 private:
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;
+
+	//CameraFollow
+	PhysBody3D* following;
+	float min_following_dist;
+	float max_following_dist;
+	float following_height;
+
 };
