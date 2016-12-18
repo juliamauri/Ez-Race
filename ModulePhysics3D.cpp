@@ -4,6 +4,7 @@
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
+#include "Color.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -329,6 +330,36 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	return pvehicle;
 }
 
+Cube* ModulePhysics3D::AddWall(int x, int y, int z, btScalar width, float rotation)
+{
+	btScalar mass = 0;
+	btVector3 fallInertia(0, 0, 0);
+
+
+	btCollisionShape* wall = new btBoxShape(btVector3({ width,3,0.5 }));
+	wall->calculateLocalInertia(mass, fallInertia);
+	btDefaultMotionState* fallMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, rotation, 0, 1), btVector3(x, 3, z)));
+	btRigidBody::btRigidBodyConstructionInfo fallRigidBodyCI(mass, fallMotionState, wall, fallInertia);
+	btRigidBody* fallRigidBody = new btRigidBody(fallRigidBodyCI);
+	App->physics->world->addRigidBody(fallRigidBody);
+
+	Cube r_wall(width * 2, 6, 1);
+	fallRigidBody->getWorldTransform().getOpenGLMatrix(&r_wall.transform);
+	btQuaternion q = fallRigidBody->getWorldTransform().getRotation();
+	r_wall.color = White;
+	walls_vector.add(r_wall);
+	return &r_wall;
+}
+
+void ModulePhysics3D::RenderWalls()
+{
+	p2List_item <Cube>* item = walls_vector.getFirst();
+	for (; item != NULL; item = item->next)
+	{
+		item->data.Render();
+	}
+
+}
 // ---------------------------------------------------------
 void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec3& anchorA, const vec3& anchorB)
 {

@@ -27,6 +27,7 @@ bool ModuleSceneIntro::Start()
 	sensor->SetAsSensor(true);
 	sensor->collision_listeners.add(this);
 
+	App->physics->AddWall(20, 10, 0, 10, 20);
 	return ret;
 }
 
@@ -48,6 +49,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	sensor->GetTransform(&s.transform);
 	s.Render();
 
+	App->physics->RenderWalls();
 	return UPDATE_CONTINUE;
 }
 
@@ -55,4 +57,6 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	LOG("Hit!");
 }
+
+
 
