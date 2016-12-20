@@ -36,7 +36,7 @@ private:
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 
 	//CameraFollow
-	PhysBody3D* following;
+	PhysBody3D* following = nullptr;
 	float min_following_dist;
 	float max_following_dist;
 	float following_height;
