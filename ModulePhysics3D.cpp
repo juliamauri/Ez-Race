@@ -330,7 +330,7 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	return pvehicle;
 }
 
-Cube* ModulePhysics3D::AddWall(int x, int y, int z, btScalar width, float rotation)
+PhysBody3D* ModulePhysics3D::AddWall(int x, int y, int z, btScalar width, float rotation)
 {
 	btScalar mass = 0;
 	btVector3 fallInertia(0, 0, 0);
@@ -345,10 +345,12 @@ Cube* ModulePhysics3D::AddWall(int x, int y, int z, btScalar width, float rotati
 
 	Cube r_wall(width * 2, 6, 1);
 	fallRigidBody->getWorldTransform().getOpenGLMatrix(&r_wall.transform);
-	btQuaternion q = fallRigidBody->getWorldTransform().getRotation();
 	r_wall.color = White;
 	walls_vector.add(r_wall);
-	return &r_wall;
+
+	PhysBody3D* pbody = new PhysBody3D(fallRigidBody);
+
+	return pbody;
 }
 
 void ModulePhysics3D::RenderWalls()
