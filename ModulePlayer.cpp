@@ -139,7 +139,9 @@ update_status ModulePlayer::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 		brake = BRAKE_POWER;
+	
 	}
+	
 
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
@@ -151,6 +153,7 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
 	{
 		vehicle->SetPos(0, 5, -40);
+	
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) || App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN)
@@ -158,7 +161,7 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->SetPos(0, 5, -40);
 	}
 
-	//Per moure la barra
+	//Move wall
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)
 	{
 		App->scene_intro->plane_random_way->Push(4000, 0, 1000);
