@@ -51,7 +51,7 @@ bool ModuleSceneIntro::Start()
 		App->physics->AddConstraintHinge(*pilon, *plane_random_way, anchorA, anchorB, axisS, axisB);
 
 	//2nd Seaparation bar
-		PhysBody3D* pilon2 = App->physics->AddWall(55,0 , -51, 0.1f, 1);
+		PhysBody3D* pilon2 = App->physics->AddWall(55,0 , -51, 0.1f, 0);
 
 
 		plane_selection2.size = vec3(0.2f * 2, 6, 20);
@@ -119,7 +119,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddWall(-140, 0, 165, 45, 0.851);
 	App->physics->AddWall(-105, 0, 170, 20, 0.851);
 
-	App->physics->AddWall(-125, 0, 220, 30, -0.15);
+	App->physics->AddWall(-125, 0, 220, 25, -0.215);
 	App->physics->AddWall(-85, 0, 195, 25, -0.15);
 
 	App->physics->AddWall(-20, 0, 228,85 , 0);
@@ -135,10 +135,38 @@ bool ModuleSceneIntro::Start()
 	
 	//Left way bottom
 	//Right
-	App->physics->AddWall(87, 0, -45, 12, -0.1);
+	App->physics->AddWall(87, 0, -45, 11, -0.1);
+	App->physics->AddWall(59, 0, -58, 8, 0.5);//Look
 	
 	//Right way bottom
-	//App->physics->AddWall(20, 0, -48, 11, 0.2);
+	App->physics->AddWall(47, 0, -59, 12, -0.45);//Look
+
+	App->physics->AddWall(6, 0, -68, 34, 0);
+	App->physics->AddWall(7, 0, -48, 26, 0);
+
+	App->physics->AddWall(-31, 0, -42, 14, 0.265);
+	App->physics->AddWall(-44, 0, -59, 18, 0.265);
+
+	App->physics->AddWall(-43, 0, -29, 6, 1);
+	App->physics->AddWall(-60, 0, -37, 14, 1);
+
+	//maze
+	App->physics->AddWall(-32, 0, -23, 11, 0);
+	App->physics->AddWall(-75, 0, -23, 14, 0);//Right
+
+	App->physics->AddWall(-21, 0, 20, 42, 1);
+	App->physics->AddWall(-89, 0, 13, 35, 1);
+
+	App->physics->AddWall(-61, 0, 62, 40, 0);
+	App->physics->AddWall(-96, 0, 49, 7, 0);
+
+	App->physics->AddWall(-131, 0, 75, 40, 0.4);
+	App->physics->AddWall(-122, 0, 83, 30, 0.4);
+
+	App->physics->AddWall(-151, 0, 156, 51, 0.88);
+	//App->physics->AddWall(-122, 0, 83, 30, 0.4);
+
+
 
 	return ret;
 }
