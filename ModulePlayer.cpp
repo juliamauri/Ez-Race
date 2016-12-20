@@ -118,10 +118,14 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
+	float vel = vehicle->GetKmh();
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
-		acceleration = MAX_ACCELERATION;
+		if (vel < 0)
+			brake = BRAKE_POWER;
+		else if (vel >= 0)
+			acceleration = MAX_ACCELERATION;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -138,7 +142,10 @@ update_status ModulePlayer::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
-		brake = BRAKE_POWER;
+		if (vel > 0)
+			brake = BRAKE_POWER;
+		else if (vel <= 0)
+			acceleration = MAX_REVERSING_ACCELERATION;
 	
 	}
 	
