@@ -24,4 +24,9 @@ public:
 public:
 	Cube s;
 	PhysBody3D* sensor;
+
+	PhysBody3D* plane_random_way;
+	Cube plane_selection;
+
+	Timer wall_way;
 };
