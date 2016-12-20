@@ -24,48 +24,49 @@ bool ModuleSceneIntro::Start()
 
 	//Sensors
 	//Meta
-	
 		s.size = vec3(40, 5, 1);
 		s.SetPos(0, 2.5f, -35);
 
 		sensor = App->physics->AddBody(s, 0.0f);
 		sensor->SetAsSensor(true);
 		sensor->collision_listeners.add(this);
-	
+
 
 	//Bar change way
-	
-		PhysBody3D* pilon = App->physics->AddWall(0, 0, 50, 0.1f, 0);
+		{
+			PhysBody3D* pilon = App->physics->AddWall(0, 0, 50, 0.1f, 0);
 
-		
-		plane_selection.size = vec3(0.2f * 2, 6, 20);
-		plane_selection.color = Red;
-		plane_random_way = App->physics->AddBody(plane_selection, 1000.0f);
 
-		vec3 anchorA(0, 0, 0);
-		vec3 anchorB(0, 0, 11);
+			plane_selection.size = vec3(0.2f * 2, 6, 20);
+			plane_selection.color = Red;
+			plane_random_way = App->physics->AddBody(plane_selection, 1000.0f);
 
-		vec3 axisS(0, 1, 0);
-		vec3 axisB(0, 1, 0);
+			vec3 anchorA(0, 0, 0);
+			vec3 anchorB(0, 0, 11);
 
-		App->physics->AddConstraintHinge(*pilon, *plane_random_way, anchorA, anchorB, axisS, axisB);
+			vec3 axisS(0, 1, 0);
+			vec3 axisB(0, 1, 0);
+
+			App->physics->AddConstraintHinge(*pilon, *plane_random_way, anchorA, anchorB, axisS, axisB);
+		}
 
 	//2nd Seaparation bar
-		PhysBody3D* pilon2 = App->physics->AddWall(55,0 , -51, 0.1f, 1);
+		{
+			PhysBody3D* pilon = App->physics->AddWall(55, 0, -52, 0.1f, 0);
 
+			plane_selection2.size = vec3(0.2f * 2, 6, 20);
+			plane_selection2.color = Red;
+			plane_selection2.SetPos(55, 0, -40);
+			plane_random_way2 = App->physics->AddBody(plane_selection2, 1000.0f);
 
-		plane_selection2.size = vec3(0.2f * 2, 6, 20);
-		plane_selection2.color = Red;
-		plane_random_way2 = App->physics->AddBody(plane_selection2, 1000.0f);
+			vec3 anchorA(0, 0, 0);
+			vec3 anchorB(0, 0, 11);
 
-		vec3 anchorC(0, 0, 0);
-		vec3 anchorD(0, 0, 11);
+			vec3 axisS(0, 1, 0);
+			vec3 axisB(0, 1, 0);
 
-		vec3 axisE(0, 1, 0);
-		vec3 axisD(0, 1, 0);
-
-		App->physics->AddConstraintHinge(*pilon2, *plane_random_way2, anchorC, anchorD, axisE, axisB);
-
+			App->physics->AddConstraintHinge(*pilon, *plane_random_way2, anchorA, anchorB, axisS, axisB);
+		}
 
 	//Walls
 	/*
@@ -164,7 +165,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		plane_random_way->Push(-4000, 0, 1000);
 	}
-	/*//2nd bar
+	//2nd bar
 	if ((wall_way.Read() / 1000) % 2 == 1)
 	{
 		plane_random_way2->Push(4000, 0, 1000);
@@ -174,7 +175,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		plane_random_way2->Push(-4000, 0, 1000);
 	}
-	*/
+	
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
@@ -185,6 +186,9 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	plane_random_way->GetTransform(&plane_selection.transform);
 	plane_selection.Render();
+
+	plane_random_way2->GetTransform(&plane_selection2.transform);
+	plane_selection2.Render();
 
 	App->physics->RenderWalls();
 	return UPDATE_CONTINUE;
