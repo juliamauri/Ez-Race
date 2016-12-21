@@ -150,7 +150,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddWall(-43, 0, -29, 6, 1);
 	App->physics->AddWall(-60, 0, -37, 14, 1);
 
-	//maze
+	//Maze
 	App->physics->AddWall(-32, 0, -23, 11, 0);
 	App->physics->AddWall(-75, 0, -23, 14, 0);//Right
 
@@ -160,10 +160,22 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddWall(-61, 0, 62, 40, 0);
 	App->physics->AddWall(-96, 0, 49, 7, 0);
 
-	App->physics->AddWall(-131, 0, 75, 40, 0.4);
+	App->physics->AddWall(-133, 0, 75, 40, 0.4);
 	App->physics->AddWall(-122, 0, 83, 30, 0.4);
 
-	App->physics->AddWall(-151, 0, 156, 51, 0.88);
+	App->physics->AddWall(-150, 0, 156, 52, 0.89);
+	App->physics->AddWall(-167, 0, 156, 53, 0.90);
+
+	App->physics->AddWall(-142, 0, 219, 18, -0.36);
+	App->physics->AddWall(-156, 0, 225, 24, -0.396);
+
+	App->physics->AddWall(-95, 0, 233, 35, -0.05);
+	App->physics->AddWall(-98, 0, 247, 41, -0.068);
+
+	App->physics->AddWall(24, 0, 253,80,- 0.005);
+	App->physics->AddWall(17, 0, 236, 76, 0);
+
+	App->physics->AddWall(90, 0, 230, 10, 0.32);
 	//App->physics->AddWall(-122, 0, 83, 30, 0.4);
 
 
