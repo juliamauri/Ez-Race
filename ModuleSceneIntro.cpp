@@ -23,9 +23,16 @@ bool ModuleSceneIntro::Start()
 	wall_way.Start();
 
 	//Sensors
-	//Meta
+	//Goal
 		s.size = vec3(40, 5, 1);
 		s.SetPos(0, 2.5f, -35);
+
+		sensor = App->physics->AddBody(s, 0.0f);
+		sensor->SetAsSensor(true);
+		sensor->collision_listeners.add(this);
+	//Mid sensor
+		s.size = vec3(40, 5, 1);
+		s.SetPos(0, 4.5f, -35);
 
 		sensor = App->physics->AddBody(s, 0.0f);
 		sensor->SetAsSensor(true);
@@ -53,7 +60,7 @@ bool ModuleSceneIntro::Start()
 
 	//2nd Seaparation bar
 		{
-			PhysBody3D* pilon = App->physics->AddWall(55, 0, -52, 0.1f, 0);
+			PhysBody3D* pilon = App->physics->AddWall(56, 0, -51, 0.1f, 0);
 
 			plane_selection2.size = vec3(0.2f * 2, 6, 20);
 			plane_selection2.color = Red;
@@ -132,7 +139,7 @@ bool ModuleSceneIntro::Start()
 	
 
 	//
-	App->physics->AddWall(39, 0, -36, 13, -0.6);
+	App->physics->AddWall(39, 0, -36, 13, -0.605);
 	App->physics->AddWall(70, 0, -36, 12, 0.6);
 	
 	//Left way bottom
@@ -141,7 +148,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddWall(59, 0, -58, 7, 0.5);//Look
 	
 	//Right way bottom
-	App->physics->AddWall(47, 0, -61, 10.5f, -0.40);//Look
+	App->physics->AddWall(47, 0, -60, 10.5f, -0.40);//Look
 
 	App->physics->AddWall(6, 0, -68, 34, 0);
 	App->physics->AddWall(7, 0, -48, 26, 0);
@@ -213,6 +220,12 @@ bool ModuleSceneIntro::Start()
 	 App->physics->AddWall(86.5, 0, -64, 23, 0);
 
 	App->physics->AddWall(129, 0, -47, 27, -0.36);
+
+	//GOAL   
+	App->physics->AddWall(-58, 0, 190, 1, 0);
+	App->physics->AddWall(-58, 0, 152, 1, 0);
+
+	App->physics->AddWall(-58, 10, 172, 20, 1);
 	return ret;
 }
 

@@ -98,11 +98,12 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 
-	vehicle->SetPos(0, 5, -40);
+	vehicle->SetPos(-62, 10, 172);
 
 	App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
 	
-	
+	//Sound
+	car_accel = App->audio->LoadFx("Sound/Acceleration_car.wav");
 	return true;
 }
 
@@ -125,7 +126,13 @@ update_status ModulePlayer::Update(float dt)
 		if (vel < 0)
 			brake = BRAKE_POWER;
 		else if (vel >= 0)
+		{
 			acceleration = MAX_ACCELERATION;
+
+			App->audio->PlayFx(car_accel);
+		}
+			
+
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
