@@ -247,10 +247,19 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		plane_random_way2->Push(-4000, 0, 1000);
 	}
-	
+
+	// Ground grill
+	/*
 	Plane p(0, 1, 0, 0);
+	p.color = Green;
 	p.axis = true;
 	p.Render();
+	*/
+
+	//Ground
+	Cube plane(1000,0,1000);
+	plane.color = Green;
+	plane.Render();
 
 	//Sensor drawing
 	//sensor->GetTransform(&s.transform);

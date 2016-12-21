@@ -27,7 +27,7 @@ bool ModulePlayer::Start()
 	car.suspensionStiffness = 200.0f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
-	car.maxSuspensionTravelCm = 1.0f;
+	car.maxSuspensionTravelCm = 500.0f;
 	car.frictionSlip = 1000.0f;
 	car.maxSuspensionForce = 6000.0f;
 
@@ -101,7 +101,6 @@ bool ModulePlayer::Start()
 	vehicle->SetPos(0, 5, -40);
 
 	App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
-	
 	
 	return true;
 }

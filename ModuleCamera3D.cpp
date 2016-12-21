@@ -167,8 +167,7 @@ void ModuleCamera3D::SelectFollowItem(PhysBody3D* body, float min, float max, fl
 	min_following_dist = min;
 	max_following_dist = max;
 	following_height = height;
-	//camera on body body
-	//following = body;
+	following = body;
 }
 
 void ModuleCamera3D::Follow()
