@@ -100,10 +100,17 @@ bool ModulePlayer::Start()
 
 	ResetCar();
 
-	//App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
+	App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
 	
 	//Sound
-	car_accel = App->audio->LoadFx("Sound/Acceleration_car.wav");
+	car_idle = App->audio->LoadFx("Sound/CoastCarEngineIdle.wav");
+	car_low = App->audio->LoadFx("Sound/CoastCarEngineLow.wav");
+	car_mid = App->audio->LoadFx("Sound/CoastCarEngineMid.wav");
+	car_fast = App->audio->LoadFx("Sound/CoastCarEngineFast.wav");
+
+	car_reverse = App->audio->LoadFx("Sound/CoastCarEngineRev.wav");
+	car_brake = App->audio->LoadFx("Sound/Brake.wav");
+	win = App->audio->LoadFx("Sound/Win.wav");
 
 	return true;
 }
@@ -122,7 +129,10 @@ update_status ModulePlayer::Update(float dt)
 	turn = acceleration = brake = 0.0f;
 	float vel = vehicle->GetKmh();
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if(vel == 0)
+		car_status = car_idle;
+
+	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		if (vel < 0)
 			brake = BRAKE_POWER;
@@ -130,28 +140,39 @@ update_status ModulePlayer::Update(float dt)
 		{
 			acceleration = MAX_ACCELERATION;
 
-			App->audio->PlayFx(car_accel);
+			if(vel > 0 && vel <= 70)
+				car_status = car_low;
+			else if(vel > 70 &&  vel <= 150)
+				car_status = car_mid;
+			else if (vel > 150)
+				car_status = car_fast;
 		}
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		if(turn < TURN_DEGREES)
 			turn +=  TURN_DEGREES;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		if(turn > -TURN_DEGREES)
 			turn -= TURN_DEGREES;
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		if (vel > 0)
+		{
 			brake = BRAKE_POWER;
+			car_status = car_brake;
+		}
 		else if (vel <= 0)
+		{
 			acceleration = MAX_REVERSING_ACCELERATION;
+			car_status = car_reverse;
+		}
 	
 	}
 	
@@ -162,13 +183,14 @@ update_status ModulePlayer::Update(float dt)
 
 	vehicle->Render();
 
+	
 
-	if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
 		ResetCar();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		if (actual_sensor == nullptr || actual_sensor == App->scene_intro->sensor)
 			ResetCar();
@@ -181,12 +203,11 @@ update_status ModulePlayer::Update(float dt)
 			vehicle->SetVelocityToZero();
 
 			//Move camera
-			/*
 			vec3 inverse(-1, -1, -1);
 			vec3 pos_car = pos_sensor.translation();
 			pos_car *= inverse;
 			App->camera->Move(pos_car);
-			*/
+			
 			//Turnb car 180degree if appear in diferent direction
 			vehicle->GetTransform(&pos_sensor);
 			float angle = App->scene_intro->ChangeCarDir();
@@ -216,6 +237,14 @@ update_status ModulePlayer::Update(float dt)
 		App->scene_intro->end = true;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	{
+		player_time.Stop();
+		game_over = true;
+		App->scene_intro->loop_clear = false;
+		total_time = 10000;
+	}
+
 	char title[210];
 
 	if (game_over == false)
@@ -224,25 +253,43 @@ update_status ModulePlayer::Update(float dt)
 	{
 		if (total_time < TIME_GOLD)
 		{
-			sprintf_s(title, "Total time: %d seconds | Congratulations you Win the gold medal! | Record: %d seconds | Press 'backspace' to reset", total_time, player_record);
+			sprintf_s(title, "Total time: %d seconds | Congratulations you Win the gold medal! | Record: %d seconds | Press 'R or backspace' to reset", total_time, player_record);
+			car_status = win;
 		}
 
 		if (total_time > TIME_GOLD && total_time <= TIME_SILVER)
 		{
-			sprintf_s(title, "Total time: %d seconds | Well done you Win the silver medal! | Record: %d seconds | Press 'backspace' to reset", total_time, player_record);
+			sprintf_s(title, "Total time: %d seconds | Well done you Win the silver medal! | Record: %d seconds | Press 'R or backspace' to reset", total_time, player_record);
+			car_status = win;
 		}
 
 		if (total_time > TIME_SILVER && total_time <= TIME_BRONZE)
 		{
-			sprintf_s(title, "Total time: %d seconds | Good you Win the bronze medal! | Record: %d seconds | Press 'backspace' to reset", total_time, player_record);
+			sprintf_s(title, "Total time: %d seconds | Good you Win the bronze medal! | Record: %d seconds | Press 'R or backspace' to reset", total_time, player_record);
+			car_status = win;
 		}
 
 		if (total_time > TIME_BRONZE)
 		{
-			sprintf_s(title, "Total time: %d seconds | Sorry You lose | Record: %d | Press 'backspace' to reset", total_time, player_record);
+			sprintf_s(title, "Total time: %d seconds | Sorry You lose | Record: %d seconds | Press 'R or backspace' to reset", total_time, player_record);
+			if (playlost_music)
+			{
+				PlayLostMusic();
+				playlost_music = false;
+			}
 		}
 	}
+
 	App->window->SetTitle(title);
+
+	if (car_status == win && game_over && stop_win)
+	{
+		App->audio->PlayFx(car_status, 1, 100);
+		stop_win = false;
+	}
+	else
+		App->audio->PlayFx(car_status, 0, 10);
+
 	return UPDATE_CONTINUE;
 }
 
@@ -260,5 +307,17 @@ void ModulePlayer::ResetCar()
 	vehicle->SetVelocityToZero();
 
 	actual_sensor = nullptr;
+
+	if (playlost_music == false)
+	{
+		App->scene_intro->PlaySceneMusic();
+		playlost_music = true;
+	}
+
 	game_over = false;
+}
+
+void ModulePlayer::PlayLostMusic()
+{
+	App->audio->PlayMusic("Sound/Lost.ogg", 0);
 }

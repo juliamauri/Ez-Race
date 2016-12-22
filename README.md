@@ -9,16 +9,17 @@ You can move the hinch with the 'o' and 'p'
 Instructions:
 
 With the button '1' you will won instantanly. 
-With the 'enter' you will spawn the car on the last sensor checkpoint.
-Whith the 'backspace' you will reset the race.
+With the button '2' you will lose instantanly. 
+With the 'enter' or 'spece' you will spawn the car on the last sensor checkpoint.
+Whith the 'backspace' or 'R' you will reset the race.
 
 - Car movement:
 
 You will move the car with the arrows.
-Up arrow to accelerate the car.
-Right arrow to turn right the car.
-Left arrow to turn left the car.
-Down arrow to break the car or reverse acceleration. 
+Up arrow or 'W' to accelerate the car.
+Right arrow or 'D' to turn right the car.
+Left arrow or 'A' to turn left the car.
+Down arrow or 'S' to break the car or reverse acceleration. 
 
 Conditions Win/Lose:
 
@@ -27,4 +28,4 @@ You will won the silver medal if you complete the race less than 2 min 20 second
 You will won the bronze medal if you complete the race with less than 3 min 20 seconds.
 wherever if you complete the race with more than 3 min 20 seconds, you will lose the race!
 
-Done by Julia Mauri Costa & José Antonio Rodriguez Millán
+Done by Julià Mauri Costa & José Antonio Rodriguez Millán

@@ -23,7 +23,7 @@ bool ModuleSceneIntro::Start()
 	wall_way.Start();
 
 	//Music Level
-	App->audio->PlayMusic("Sound/Music.ogg", 0);
+	PlaySceneMusic();
 
 	//Sensors
 	//Goal
@@ -268,7 +268,6 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	/*
 	if ((wall_way.Read() / 1000) % 2 == 1)
 	{
 		plane_random_way->Push(4000, 0, 1000);
@@ -288,7 +287,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		plane_random_way2->Push(-4000, 0, 1000);
 	}
-	*/
+	
 	// Ground grill
 	/*
 	Plane p(0, 1, 0, 0);
@@ -519,4 +518,9 @@ float ModuleSceneIntro::ChangeCarDir() {
 		angle = 135;
 
 	return angle;
+}
+
+void ModuleSceneIntro::PlaySceneMusic()
+{
+	App->audio->PlayMusic("Sound/Music.ogg", 0);
 }

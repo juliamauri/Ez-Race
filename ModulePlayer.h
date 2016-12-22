@@ -25,6 +25,8 @@ public:
 	bool CleanUp();
 
 	void ResetCar();
+
+	void PlayLostMusic();
 	
 public:
 
@@ -32,8 +34,21 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
-	uint car_accel = 0;
-	
+
+
+	uint car_status = 0;
+
+	uint car_idle = 0;
+	uint car_low = 0;
+	uint car_mid = 0;
+	uint car_fast = 0;
+
+	uint car_brake = 0;
+	uint car_reverse = 0;
+
+	uint win = 0;
+
+
 	Timer player_time;
 	int total_time = 0;
 	int player_record = 0;
@@ -41,4 +56,8 @@ public:
 	PhysBody3D* actual_sensor = nullptr;
 
 	bool game_over = false;
+
+	bool stop_win = true;
+
+	bool playlost_music = true;
 };

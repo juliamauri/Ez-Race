@@ -345,7 +345,7 @@ PhysBody3D* ModulePhysics3D::AddWall(int x, int y, int z, btScalar width, float 
 
 	Cube r_wall(width * 2, 6, 1);
 	fallRigidBody->getWorldTransform().getOpenGLMatrix(&r_wall.transform);
-	r_wall.color = White;
+	r_wall.color = Orange;
 	walls_vector.add(r_wall);
 
 	PhysBody3D* pbody = new PhysBody3D(fallRigidBody);

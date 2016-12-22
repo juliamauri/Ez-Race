@@ -22,6 +22,7 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	
 	float ChangeCarDir();
+	void PlaySceneMusic();
 
 public:
 	Cube s;
