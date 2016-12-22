@@ -22,13 +22,13 @@ bool ModulePlayer::Start()
 
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(3, 1, 8);
-	car.chassis_offset.Set(0, 1, 0);
+	car.chassis_offset.Set(0, 1.5, 0);
 	car.mass = 500.0f;
-	car.suspensionStiffness = 200.0f;
+	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
-	car.maxSuspensionTravelCm = 500.0f;
-	car.frictionSlip = 1000.0f;
+	car.maxSuspensionTravelCm = 1000.0f;
+	car.frictionSlip = 50.5;
 	car.maxSuspensionForce = 6000.0f;
 
 	// Wheel properties ---------------------------------------
@@ -98,9 +98,11 @@ bool ModulePlayer::Start()
 
 	vehicle = App->physics->AddVehicle(car);
 
-	vehicle->SetPos(-62, 10, 172);
+	ResetCar();
 
-	//App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
+
+
+	App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
 	
 	//Sound
 	car_accel = App->audio->LoadFx("Sound/Acceleration_car.wav");
@@ -114,6 +116,20 @@ bool ModulePlayer::CleanUp()
 	LOG("Unloading player");
 
 	return true;
+}
+
+void ModulePlayer::ResetCar()
+{
+	App->camera->Move(vec3(-75, 5, 167.25f));
+
+	vehicle->SetPos(-70, 1, 172);
+
+	mat4x4 test;
+	vehicle->GetTransform(&test);
+	test.rotate(90, vec3(0, 1, 0));
+	vehicle->SetTransform(&test);
+
+	vehicle->SetVelocityToZero();
 }
 
 // Update: draw background
@@ -167,13 +183,12 @@ update_status ModulePlayer::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_BACKSPACE) == KEY_DOWN)
 	{
-		vehicle->SetPos(0, 5, -40);
-	
+		ResetCar();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) || App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN)
 	{
-		vehicle->SetPos(0, 5, -40);
+		ResetCar();;
 	}
 
 	//Move wall
@@ -199,6 +214,4 @@ update_status ModulePlayer::Update(float dt)
 
 	return UPDATE_CONTINUE;
 }
-
-
 

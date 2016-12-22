@@ -17,7 +17,7 @@ bool ModuleSceneIntro::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	App->camera->Move(vec3(0.0f, 3.0f, -50.0f));
+	
 
 	//Start timer por wall way
 	wall_way.Start();

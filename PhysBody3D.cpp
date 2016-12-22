@@ -48,6 +48,15 @@ void PhysBody3D::SetPos(float x, float y, float z)
 	body->setWorldTransform(t);
 }
 
+
+// ---------------------------------------------------------
+void PhysBody3D::SetVelocityToZero()
+{
+	btVector3 zeroVector(0, 0, 0);
+	body->setLinearVelocity(zeroVector);
+	body->setAngularVelocity(zeroVector);
+}
+
 // ---------------------------------------------------------
 void PhysBody3D::SetAsSensor(bool is_sensor)
 {
