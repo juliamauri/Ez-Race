@@ -201,38 +201,37 @@ update_status ModulePlayer::Update(float dt)
 		App->scene_intro->plane_random_way2->Push(-4000, 0, 1000);
 	}
 
-	char title[80];
+	char title[200];
 
 	if (game_over == false)
 		sprintf_s(title, "%.1f Km/h | %i seconds | Record: %i", vehicle->GetKmh(), player_time.Read() / 1000, player_record / 1000);
 	else if (game_over)
-		sprintf_s(title, "Total time: %i seconds | Record: %i", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
-
-	App->window->SetTitle(title);
-
-	if (game_over)
 	{
-		if (total_time > TIME_GOLD)
+		if (total_time < TIME_GOLD)
 		{
+			sprintf_s(title, "Total time: %i seconds | Congratulations you Win the gold medal! | Record: %i | Press 'backspace' to reset", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
 
 		}
 
-		if (total_time < TIME_GOLD && total_time >= TIME_SILVER)
+		if (total_time > TIME_GOLD && total_time <= TIME_SILVER)
 		{
+			sprintf_s(title, "Total time: %i seconds | Well done you Win the silver medal! | Record: %i | Press 'backspace' to reset", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
 
 		}
 
-		if (total_time < TIME_SILVER && total_time >= TIME_BRONZE)
+		if (total_time > TIME_SILVER && total_time <= TIME_BRONZE)
 		{
+			sprintf_s(title, "Total time: %i seconds | Good you Win the bronze medal! | Record: %i | Press 'backspace' to reset", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
 
 		}
 
-		if (total_time < TIME_BRONZE)
+		if (total_time > TIME_BRONZE)
 		{
+			sprintf_s(title, "Total time: %i seconds | Sorry You lose | Record: %i | Press 'backspace' to reset", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
 
 		}
 	}
-
+	App->window->SetTitle(title);
 	return UPDATE_CONTINUE;
 }
 
