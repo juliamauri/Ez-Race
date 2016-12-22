@@ -22,6 +22,9 @@ bool ModuleSceneIntro::Start()
 	//Start timer por wall way
 	wall_way.Start();
 
+	//Music Level
+	App->audio->PlayMusic("Sound/Music.ogg", 0);
+
 	//Sensors
 	//Goal
 		s.size = vec3(31, 5, 1);
@@ -265,6 +268,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	/*
 	if ((wall_way.Read() / 1000) % 2 == 1)
 	{
 		plane_random_way->Push(4000, 0, 1000);
@@ -284,7 +288,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		plane_random_way2->Push(-4000, 0, 1000);
 	}
-	
+	*/
 	// Ground grill
 	/*
 	Plane p(0, 1, 0, 0);
@@ -368,12 +372,14 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		App->player->actual_sensor = sensor6;
 		sensor_left = false;
+		left_loop = true;
 	}
 
 	if (sensor_right && App->player->actual_sensor == sensor10)
 	{
 		App->player->actual_sensor = sensor7;
 		loop_clear = true;
+		left_loop = false;
 		sensor_right = false;
 	}
 
@@ -382,12 +388,14 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		App->player->actual_sensor = sensor7;
 		sensor_right = false;
+		right_loop = true;
 	}
 
 	if (sensor_left && App->player->actual_sensor == sensor8)
 	{
 		App->player->actual_sensor = sensor6;
 		loop_clear = true;
+		right_loop = false;
 		sensor_left = false;
 	}
 
@@ -404,6 +412,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			App->player->player_record = App->player->total_time;
 
 		App->player->game_over = true;
+		loop_clear = false;
 		end = false;
 	}
 
@@ -476,4 +485,38 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 	if (body1 == sensor && App->player->actual_sensor == sensor2 && loop_clear)
 		end = true;
+}
+
+float ModuleSceneIntro::ChangeCarDir() {
+
+	float angle = 0;
+
+	if (App->player->actual_sensor == sensor2 && loop_clear == true)
+		angle = 180;
+
+	if (App->player->actual_sensor == sensor3 && loop_clear == true)
+		angle = 135;
+
+	if (App->player->actual_sensor == sensor4 && loop_clear == false)
+		angle = 135;
+
+	if (App->player->actual_sensor == sensor5 && loop_clear == false)
+		angle = 180;
+
+	if (App->player->actual_sensor == sensor6 && loop_clear == false && left_loop)
+		angle = -90;
+
+	if (App->player->actual_sensor == sensor10 && loop_clear == false && left_loop)
+		angle = 135;
+
+	if (App->player->actual_sensor == sensor7 && loop_clear == true && left_loop == false)
+		angle = -90;
+
+	if (App->player->actual_sensor == sensor9 && loop_clear == false && right_loop)
+		angle = -90;
+
+	if (App->player->actual_sensor == sensor8 && loop_clear == false && right_loop)
+		angle = 135;
+
+	return angle;
 }

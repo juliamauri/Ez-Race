@@ -21,6 +21,8 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	
+	float ChangeCarDir();
+
 public:
 	Cube s;
 	PhysBody3D* sensor;
@@ -64,6 +66,8 @@ public:
 	bool sensor_10 = false;
 
 	bool loop_clear = false;
+	bool right_loop = false;
+	bool left_loop = false;
 
 	PhysBody3D* plane_random_way;
 	PhysBody3D* plane_random_way2;

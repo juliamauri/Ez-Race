@@ -100,9 +100,7 @@ bool ModulePlayer::Start()
 
 	ResetCar();
 
-
-
-	App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
+	//App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
 	
 	//Sound
 	car_accel = App->audio->LoadFx("Sound/Acceleration_car.wav");
@@ -134,8 +132,6 @@ update_status ModulePlayer::Update(float dt)
 
 			App->audio->PlayFx(car_accel);
 		}
-			
-
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -178,14 +174,27 @@ update_status ModulePlayer::Update(float dt)
 			ResetCar();
 		else
 		{
+			//Move car to sensor
 			mat4x4 pos_sensor;
 			actual_sensor->GetTransform(&pos_sensor);
 			vehicle->SetTransform(&pos_sensor);
 			vehicle->SetVelocityToZero();
+
+			//Move camera
+			/*
 			vec3 inverse(-1, -1, -1);
 			vec3 pos_car = pos_sensor.translation();
 			pos_car *= inverse;
 			App->camera->Move(pos_car);
+			*/
+			//Turnb car 180degree if appear in diferent direction
+			vehicle->GetTransform(&pos_sensor);
+			float angle = App->scene_intro->ChangeCarDir();
+			if (angle != 0)
+			{
+				pos_sensor.rotate(angle, vec3(0, 1, 0));
+				vehicle->SetTransform(&pos_sensor);
+			}
 		}
 	}
 
@@ -210,7 +219,7 @@ update_status ModulePlayer::Update(float dt)
 	char title[210];
 
 	if (game_over == false)
-		sprintf_s(title, "%.1f Km/h | %i seconds | Record: %i", vehicle->GetKmh(), player_time.Read() / 1000, player_record);
+		sprintf_s(title, "%.1f Km/h | %i seconds | Record: %i seconds", vehicle->GetKmh(), player_time.Read() / 1000, player_record);
 	else if (game_over)
 	{
 		if (total_time < TIME_GOLD)
