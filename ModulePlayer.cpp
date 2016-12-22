@@ -180,14 +180,21 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT)
 	{
 		App->scene_intro->plane_random_way->Push(4000, 0, 1000);
+		App->scene_intro->plane_random_way2->Push(4000, 0, 1000);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT)
 	{
 		App->scene_intro->plane_random_way->Push(-4000, 0, 1000);
+		App->scene_intro->plane_random_way2->Push(-4000, 0, 1000);
 	}
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
+
+	if (App->scene_intro->game_over == false)
+		sprintf_s(title, "%.1f Km/h | %i seconds", vehicle->GetKmh(), player_time.Read() / 1000);
+	else if (App->scene_intro->game_over)
+		sprintf_s(title, "Total time: %i seconds", vehicle->GetKmh(), player_time.Read() / 1000);
+
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;

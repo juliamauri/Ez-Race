@@ -28,4 +28,7 @@ public:
 	float brake;
 	uint car_accel = 0;
 	
+	Timer player_time;
+
+	PhysBody3D* actual_sensor = nullptr;
 };

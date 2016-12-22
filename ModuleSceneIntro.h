@@ -24,33 +24,48 @@ public:
 public:
 	Cube s;
 	PhysBody3D* sensor;
+	bool start = false;
+	bool end = false;
 
 	Cube s2;
 	PhysBody3D* sensor2;
+	bool sensor_2 = false;
 
 	Cube s3;
 	PhysBody3D* sensor3;
+	bool sensor_3 = false;
 
 	Cube s4;
 	PhysBody3D* sensor4;
+	bool sensor_4 = false;
 
 	Cube s5;
 	PhysBody3D* sensor5;
+	bool sensor_5 = false;
 
 	Cube s6;
 	PhysBody3D* sensor6;
+	bool sensor_left = false;
 
 	Cube s7;
 	PhysBody3D* sensor7;
+	bool sensor_right = false;
 
 	Cube s8;
 	PhysBody3D* sensor8;
+	bool sensor_8 = false;
 
 	Cube s9;
 	PhysBody3D* sensor9;
+	bool sensor_9 = false;
 
 	Cube s10;
 	PhysBody3D* sensor10;
+	bool sensor_10 = false;
+
+	bool loop_clear = false;
+
+	bool game_over = false;
 
 	PhysBody3D* plane_random_way;
 	PhysBody3D* plane_random_way2;

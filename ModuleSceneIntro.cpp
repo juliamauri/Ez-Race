@@ -30,6 +30,7 @@ bool ModuleSceneIntro::Start()
 		sensor = App->physics->AddBody(s, 0.0f);
 		sensor->SetAsSensor(true);
 		sensor->collision_listeners.add(this);
+
 	//Mid sensor
 		s2.size = vec3(23, 5, 1);
 		s2.SetPos(0, 4.5f,-10);
@@ -44,7 +45,7 @@ bool ModuleSceneIntro::Start()
 		sensor3 = App->physics->AddBody(s3, 0.0f);
 		sensor3->SetAsSensor(true);
 		sensor3->collision_listeners.add(this);
-
+		
 		s4.size = vec3(23, 5, 1);
 		s4.SetPos(47, 4.5f,215);
 		s4.SetRotation(-50, vec3(0, 1, 0));
@@ -52,7 +53,6 @@ bool ModuleSceneIntro::Start()
 		sensor4->SetAsSensor(true);
 		sensor4->collision_listeners.add(this);
 
-		//
 		s5.size = vec3(16, 5, 1);
 		s5.SetPos(55, 4.5f,19);
 		s5.SetRotation(0, vec3(0, 1, 0));
@@ -61,21 +61,20 @@ bool ModuleSceneIntro::Start()
 		sensor5->collision_listeners.add(this);
 
 		//Separation sensor way
-
 		s6.size = vec3(13, 5, 1);
 		s6.SetPos(26, 4.5f, -58);
 		s6.SetRotation(90, vec3(0, 1, 0));
 		sensor6 = App->physics->AddBody(s6, 0.0f);
 		sensor6->SetAsSensor(true);
 		sensor6->collision_listeners.add(this);
-
+	
 		s7.size = vec3(13, 5, 1);
 		s7.SetPos(80, 4.5f, -56);
 		s7.SetRotation(90, vec3(0, 1, 0));
 		sensor7 = App->physics->AddBody(s7, 0.0f);
 		sensor7->SetAsSensor(true);
 		sensor7->collision_listeners.add(this);
-
+		
 		//Sensor maze
 		s8.size = vec3(13, 5, 1);
 		s8.SetPos(-95, 4.5f, 56);
@@ -85,19 +84,20 @@ bool ModuleSceneIntro::Start()
 		sensor8->collision_listeners.add(this);
 
 		//Sensor mid 2 ways
-		s8.size = vec3(10, 5, 1);
-		s8.SetPos(-99, 4.5f, 240);
-		s8.SetRotation(73, vec3(0, 1, 0));
-		sensor8 = App->physics->AddBody(s8, 0.0f);
-		sensor8->SetAsSensor(true);
-		sensor8->collision_listeners.add(this);
-
-		s9.size = vec3(12, 5, 1);
-		s9.SetPos(110, 4.5f, 237);
-		s9.SetRotation(-73, vec3(0, 1, 0));
+		s9.size = vec3(10, 5, 1);
+		s9.SetPos(-99, 4.5f, 240);
+		s9.SetRotation(73, vec3(0, 1, 0));
 		sensor9 = App->physics->AddBody(s9, 0.0f);
 		sensor9->SetAsSensor(true);
 		sensor9->collision_listeners.add(this);
+
+		s10.size = vec3(12, 5, 1);
+		s10.SetPos(110, 4.5f, 237);
+		s10.SetRotation(-73, vec3(0, 1, 0));
+		sensor10 = App->physics->AddBody(s10, 0.0f);
+		sensor10->SetAsSensor(true);
+		sensor10->collision_listeners.add(this);
+
 	//Seaparation bar
 		{
 			PhysBody3D* pilon = App->physics->AddWall(0, 0, 50, 0.1f, 0);
@@ -136,40 +136,6 @@ bool ModuleSceneIntro::Start()
 		}
 
 	//Walls
-	/*
-	//Recta principal
-	{
-		App->physics->AddWall(20, 0, -45, 15, 1);
-		App->physics->AddWall(-20, 0, -45, 15, 1);
-
-		App->physics->AddWall(20, 0, -30, 15, 1);
-		App->physics->AddWall(-20, 0, -30, 15, 1);
-
-		App->physics->AddWall(20, 0, -15, 15, 1);
-		App->physics->AddWall(-20, 0, -15, 15, 1);
-
-
-		App->physics->AddWall(20, 0, 0, 15, 1);
-		App->physics->AddWall(-20, 0, 0, 15, 1);
-
-		App->physics->AddWall(20, 0, 15, 30, 1);
-		App->physics->AddWall(-20, 0, 15, 30, 1);
-
-		App->physics->AddWall(0, 0, 65.5f, 15, 1);
-	}
-
-	//Dreta
-	{
-		App->physics->AddWall(8.5f, 0, 85, 10, -0.30f);
-		App->physics->AddWall(25.5f, 0, 52.5f, 10, -0.55f);
-	}
-
-	//Esquerra
-	{
-		App->physics->AddWall(-8.5f, 0, 85, 10, 0.30f);
-		App->physics->AddWall(-25.5f, 0, 52.5f, 10, 0.55f);
-	}*/
-
 	//streight walls
 	App->physics->AddWall(15, 0, 0, 15,1);
 	App->physics->AddWall(-15, 0, 0, 15,1);
@@ -299,7 +265,6 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-
 	if ((wall_way.Read() / 1000) % 2 == 1)
 	{
 		plane_random_way->Push(4000, 0, 1000);
@@ -345,13 +310,161 @@ update_status ModuleSceneIntro::Update(float dt)
 	plane_selection2.Render();
 
 	App->physics->RenderWalls();
+
+	//Timers-sensors-----------------------------------------------------------------------------------------------
+	
+	//Start
+	if (start)
+	{
+		App->player->actual_sensor = sensor;
+		App->player->player_time.Start();
+		start = false;
+	}
+
+	if (sensor_2)
+	{
+		App->player->actual_sensor = sensor2;
+		sensor_2 = false;
+	}
+
+	if (sensor_3)
+	{
+		App->player->actual_sensor = sensor3;
+		sensor_3 = false;
+	}
+
+	if (sensor_4)
+	{
+		App->player->actual_sensor = sensor4;
+		sensor_4 = false;
+	}
+
+	if (sensor_5)
+	{
+		App->player->actual_sensor = sensor5;
+		sensor_5 = false;
+	}
+
+	if (sensor_8)
+	{
+		App->player->actual_sensor = sensor8;
+		sensor_8 = false;
+	}
+
+	if (sensor_9)
+	{
+		App->player->actual_sensor = sensor9;
+		sensor_9 = false;
+	}
+
+	if (sensor_10)
+	{
+		App->player->actual_sensor = sensor10;
+		sensor_10 = false;
+	}
+
+	//Left way
+	if (sensor_left && App->player->actual_sensor == sensor5)
+	{
+		App->player->actual_sensor = sensor6;
+		sensor_left = false;
+	}
+
+	if (sensor_right && App->player->actual_sensor == sensor10)
+	{
+		App->player->actual_sensor = sensor7;
+		loop_clear = true;
+		sensor_right = false;
+	}
+
+	//Way right
+	if (sensor_right && App->player->actual_sensor == sensor5)
+	{
+		App->player->actual_sensor = sensor7;
+		sensor_right = false;
+	}
+
+	if (sensor_left && App->player->actual_sensor == sensor8)
+	{
+		App->player->actual_sensor = sensor6;
+		loop_clear = true;
+		sensor_left = false;
+	}
+
+	//End
+	if (end)
+	{
+		App->player->actual_sensor = sensor;
+		App->player->player_time.Stop();
+		game_over = true;
+		end = false;
+	}
+
 	return UPDATE_CONTINUE;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	LOG("Hit!");
+	if (body1 == sensor && App->player->actual_sensor == nullptr)
+		start = true;
+
+	if (body1 == sensor2 && App->player->actual_sensor == sensor)
+		sensor_2 = true;
+
+	if (body1 == sensor3 && App->player->actual_sensor == sensor2)
+		sensor_3 = true;
+
+	if (body1 == sensor4 && App->player->actual_sensor == sensor3)
+		sensor_4 = true;
+
+	if (body1 == sensor5 && App->player->actual_sensor == sensor4)
+		sensor_5 = true;
+
+	//Left way
+	if (body1 == sensor6 && App->player->actual_sensor == sensor5)
+		sensor_left = true;
+
+	if (body1 == sensor8  && App->player->actual_sensor == sensor6)
+		sensor_8 = true;
+
+	if (body1 == sensor9  && App->player->actual_sensor == sensor8)
+		sensor_9 = true;
+
+	if (body1 == sensor10  && App->player->actual_sensor == sensor9)
+		sensor_10 = true;
+
+	if (body1 == sensor7 && App->player->actual_sensor == sensor10)
+		sensor_right = true;
+
+	//Right way
+	if (body1 == sensor7 && App->player->actual_sensor == sensor5)
+		sensor_right = true;
+
+	if (body1 == sensor10  && App->player->actual_sensor == sensor7)
+		sensor_10 = true;
+
+	if (body1 == sensor9  && App->player->actual_sensor == sensor10)
+		sensor_9 = true;
+
+	if (body1 == sensor8  && App->player->actual_sensor == sensor9)
+		sensor_8 = true;
+
+	if (body1 == sensor6  && App->player->actual_sensor == sensor8)
+		sensor_left = true;
+
+	//End way
+	if (body1 == sensor5 && (App->player->actual_sensor == sensor7 || App->player->actual_sensor == sensor6) && loop_clear)
+		sensor_5 = true;
+
+	if (body1 == sensor4 && App->player->actual_sensor == sensor5 && loop_clear)
+		sensor_4 = true;
+
+	if (body1 == sensor3 && App->player->actual_sensor == sensor4 && loop_clear)
+		sensor_3 = true;
+
+	if (body1 == sensor2 && App->player->actual_sensor == sensor3 && loop_clear)
+		sensor_2 = true;
+
+	if (body1 == sensor && App->player->actual_sensor == sensor2 && loop_clear)
+		end = true;
 }
-
-
-
