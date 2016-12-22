@@ -123,11 +123,11 @@ bool ModuleSceneIntro::Start()
 
 			plane_selection2.size = vec3(0.2f * 2, 6, 20);
 			plane_selection2.color = Red;
-			plane_selection2.SetPos(0, 0, 0);
+			plane_selection2.SetPos(56, 0, 0);
 			plane_random_way2 = App->physics->AddBody(plane_selection2, 1000.0f);
 
 			vec3 anchorA(0, 0, 0);
-			vec3 anchorB(0, 0, 11.5f);
+			vec3 anchorB(0, 0, -11.5f);
 
 			vec3 axisS(0, 1, 0);
 			vec3 axisB(0, 1, 0);
@@ -143,7 +143,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddWall(15,0, 40, 25, 1);
 	App->physics->AddWall(-15, 0, 40,25, 1);
 
-	//first turn raight
+	//first turn right
 	App->physics->AddWall(-30, 0, 85, 25, 0.51);
 	App->physics->AddWall(-10, 0, 105, 45, 0.51);
 
@@ -158,17 +158,17 @@ bool ModuleSceneIntro::Start()
 
 	App->physics->AddWall(-20, 0, 228,85 , 0);
 	App->physics->AddWall(-10, 0, 202, 55, 0);
+
 	// Prev bifurcation
 	App->physics->AddWall(65, 0, 102, 128, 1);
-	App->physics->AddWall(45, 0, 89, 113, 1);
+	App->physics->AddWall(45.5f, 0, 88.5f, 114, 1);
 	
 
-	//
-	App->physics->AddWall(39, 0, -36, 13, -0.605);
+	//Cone of way2
+	App->physics->AddWall(40, 0, -36, 12, -0.6);
 	App->physics->AddWall(70, 0, -36, 12, 0.6);
 	
 	//Left way bottom
-	//Right
 	App->physics->AddWall(86, 0, -45, 11, -0.06);
 	App->physics->AddWall(59, 0, -58, 7, 0.5);//Look
 	
@@ -176,7 +176,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddWall(47, 0, -60, 10.5f, -0.40);//Look
 
 	App->physics->AddWall(6, 0, -68, 34, 0);
-	App->physics->AddWall(7, 0, -48, 26, 0);
+	App->physics->AddWall(8, 0, -48, 27, -0.02f);
 
 	App->physics->AddWall(-31, 0, -42, 14, 0.265);
 	App->physics->AddWall(-44, 0, -59, 18, 0.265);
