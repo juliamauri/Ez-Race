@@ -118,20 +118,6 @@ bool ModulePlayer::CleanUp()
 	return true;
 }
 
-void ModulePlayer::ResetCar()
-{
-	App->camera->Move(vec3(-75, 5, 167.25f));
-
-	vehicle->SetPos(-70, 1, 172);
-
-	mat4x4 test;
-	vehicle->GetTransform(&test);
-	test.rotate(90, vec3(0, 1, 0));
-	vehicle->SetTransform(&test);
-
-	vehicle->SetVelocityToZero();
-}
-
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
@@ -186,9 +172,22 @@ update_status ModulePlayer::Update(float dt)
 		ResetCar();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_RETURN) || App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_KP_ENTER) == KEY_DOWN)
 	{
-		ResetCar();;
+		if (actual_sensor == nullptr || actual_sensor == App->scene_intro->sensor)
+			ResetCar();
+		else
+		{
+			mat4x4 pos_sensor;
+			actual_sensor->GetTransform(&pos_sensor);
+			vehicle->SetTransform(&pos_sensor);
+			vehicle->SetVelocityToZero();
+			vec3 inverse(-1, -1, -1);
+			vec3 pos_car = pos_sensor.translation();
+			pos_car *= inverse;
+			App->camera->Move(pos_car);
+		}
+
 	}
 
 	//Move wall
@@ -208,10 +207,23 @@ update_status ModulePlayer::Update(float dt)
 	if (App->scene_intro->game_over == false)
 		sprintf_s(title, "%.1f Km/h | %i seconds", vehicle->GetKmh(), player_time.Read() / 1000);
 	else if (App->scene_intro->game_over)
-		sprintf_s(title, "Total time: %i seconds", vehicle->GetKmh(), player_time.Read() / 1000);
+		sprintf_s(title, "Total time: %i seconds", vehicle->GetKmh(), total_time / 1000);
 
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
 }
 
+void ModulePlayer::ResetCar()
+{
+	App->camera->Move(vec3(-75, 5, 167.25f));
+
+	vehicle->SetPos(-70, 1, 172);
+
+	mat4x4 angle;
+	vehicle->GetTransform(&angle);
+	angle.rotate(90, vec3(0, 1, 0));
+	vehicle->SetTransform(&angle);
+
+	vehicle->SetVelocityToZero();
+}
