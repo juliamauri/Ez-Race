@@ -9,8 +9,8 @@ You can move the hinch with the 'o' and 'p'
 Instructions:
 
 With the button '1' you will won instantanly. 
-With the 'backspace' you will spawn the car on the last sensor checkpoint.
-Whith the 'enter' you will reset the race.
+With the 'enter' you will spawn the car on the last sensor checkpoint.
+Whith the 'backspace' you will reset the race.
 
 - Car movement:
 
