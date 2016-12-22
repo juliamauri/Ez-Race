@@ -201,34 +201,36 @@ update_status ModulePlayer::Update(float dt)
 		App->scene_intro->plane_random_way2->Push(-4000, 0, 1000);
 	}
 
-	char title[200];
+	//Win
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		App->scene_intro->end = true;
+	}
+
+	char title[210];
 
 	if (game_over == false)
-		sprintf_s(title, "%.1f Km/h | %i seconds | Record: %i", vehicle->GetKmh(), player_time.Read() / 1000, player_record / 1000);
+		sprintf_s(title, "%.1f Km/h | %i seconds | Record: %i", vehicle->GetKmh(), player_time.Read() / 1000, player_record);
 	else if (game_over)
 	{
 		if (total_time < TIME_GOLD)
 		{
-			sprintf_s(title, "Total time: %i seconds | Congratulations you Win the gold medal! | Record: %i | Press 'backspace' to reset", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
-
+			sprintf_s(title, "Total time: %d seconds | Congratulations you Win the gold medal! | Record: %d seconds | Press 'backspace' to reset", total_time, player_record);
 		}
 
 		if (total_time > TIME_GOLD && total_time <= TIME_SILVER)
 		{
-			sprintf_s(title, "Total time: %i seconds | Well done you Win the silver medal! | Record: %i | Press 'backspace' to reset", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
-
+			sprintf_s(title, "Total time: %d seconds | Well done you Win the silver medal! | Record: %d seconds | Press 'backspace' to reset", total_time, player_record);
 		}
 
 		if (total_time > TIME_SILVER && total_time <= TIME_BRONZE)
 		{
-			sprintf_s(title, "Total time: %i seconds | Good you Win the bronze medal! | Record: %i | Press 'backspace' to reset", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
-
+			sprintf_s(title, "Total time: %d seconds | Good you Win the bronze medal! | Record: %d seconds | Press 'backspace' to reset", total_time, player_record);
 		}
 
 		if (total_time > TIME_BRONZE)
 		{
-			sprintf_s(title, "Total time: %i seconds | Sorry You lose | Record: %i | Press 'backspace' to reset", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
-
+			sprintf_s(title, "Total time: %d seconds | Sorry You lose | Record: %d | Press 'backspace' to reset", total_time, player_record);
 		}
 	}
 	App->window->SetTitle(title);
@@ -249,4 +251,5 @@ void ModulePlayer::ResetCar()
 	vehicle->SetVelocityToZero();
 
 	actual_sensor = nullptr;
+	game_over = false;
 }

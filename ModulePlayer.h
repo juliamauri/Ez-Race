@@ -35,8 +35,8 @@ public:
 	uint car_accel = 0;
 	
 	Timer player_time;
-	Uint32 total_time = 0;
-	Uint32 player_record = 0;
+	int total_time = 0;
+	int player_record = 0;
 
 	PhysBody3D* actual_sensor = nullptr;
 

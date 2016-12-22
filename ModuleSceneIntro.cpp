@@ -284,7 +284,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		plane_random_way2->Push(-4000, 0, 1000);
 	}
-
+	
 	// Ground grill
 	/*
 	Plane p(0, 1, 0, 0);
@@ -396,10 +396,11 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		App->player->actual_sensor = sensor;
 
-		App->player->player_time.Stop();
-		App->player->total_time = App->player->player_time.Read();
 
-		if (App->player->total_time > App->player->player_record)
+		App->player->total_time = App->player->player_time.Read() / 1000;
+		App->player->player_time.Stop();
+		
+		if (App->player->total_time < App->player->player_record || App->player->player_record == 0)
 			App->player->player_record = App->player->total_time;
 
 		App->player->game_over = true;
