@@ -24,21 +24,80 @@ bool ModuleSceneIntro::Start()
 
 	//Sensors
 	//Goal
-		s.size = vec3(40, 5, 1);
-		s.SetPos(0, 2.5f, -35);
-
+		s.size = vec3(31, 5, 1);
+		s.SetPos(-58, 4, 171);
+		s.SetRotation(90, vec3(0, 1, 0));
 		sensor = App->physics->AddBody(s, 0.0f);
 		sensor->SetAsSensor(true);
 		sensor->collision_listeners.add(this);
 	//Mid sensor
-		s.size = vec3(40, 5, 1);
-		s.SetPos(0, 4.5f, -35);
+		s2.size = vec3(23, 5, 1);
+		s2.SetPos(0, 4.5f,-10);
+		s2.SetRotation(0,vec3(0,1,0));
+		sensor2 = App->physics->AddBody(s2, 0.0f);
+		sensor2->SetAsSensor(true);
+		sensor2->collision_listeners.add(this);
 
-		sensor = App->physics->AddBody(s, 0.0f);
-		sensor->SetAsSensor(true);
-		sensor->collision_listeners.add(this);
+		s3.size = vec3(23, 5, 1);
+		s3.SetPos(-40, 4.5f, 120);
+		s3.SetRotation(-56, vec3(0, 1, 0));
+		sensor3 = App->physics->AddBody(s3, 0.0f);
+		sensor3->SetAsSensor(true);
+		sensor3->collision_listeners.add(this);
 
+		s4.size = vec3(23, 5, 1);
+		s4.SetPos(47, 4.5f,215);
+		s4.SetRotation(-50, vec3(0, 1, 0));
+		sensor4 = App->physics->AddBody(s4, 0.0f);
+		sensor4->SetAsSensor(true);
+		sensor4->collision_listeners.add(this);
 
+		//
+		s5.size = vec3(16, 5, 1);
+		s5.SetPos(55, 4.5f,19);
+		s5.SetRotation(0, vec3(0, 1, 0));
+		sensor5 = App->physics->AddBody(s5, 0.0f);
+		sensor5->SetAsSensor(true);
+		sensor5->collision_listeners.add(this);
+
+		//Separation sensor way
+
+		s6.size = vec3(13, 5, 1);
+		s6.SetPos(26, 4.5f, -58);
+		s6.SetRotation(90, vec3(0, 1, 0));
+		sensor6 = App->physics->AddBody(s6, 0.0f);
+		sensor6->SetAsSensor(true);
+		sensor6->collision_listeners.add(this);
+
+		s7.size = vec3(13, 5, 1);
+		s7.SetPos(80, 4.5f, -56);
+		s7.SetRotation(90, vec3(0, 1, 0));
+		sensor7 = App->physics->AddBody(s7, 0.0f);
+		sensor7->SetAsSensor(true);
+		sensor7->collision_listeners.add(this);
+
+		//Sensor maze
+		s8.size = vec3(13, 5, 1);
+		s8.SetPos(-95, 4.5f, 56);
+		s8.SetRotation(-46, vec3(0, 1, 0));
+		sensor8 = App->physics->AddBody(s8, 0.0f);
+		sensor8->SetAsSensor(true);
+		sensor8->collision_listeners.add(this);
+
+		//Sensor mid 2 ways
+		s8.size = vec3(10, 5, 1);
+		s8.SetPos(-99, 4.5f, 240);
+		s8.SetRotation(73, vec3(0, 1, 0));
+		sensor8 = App->physics->AddBody(s8, 0.0f);
+		sensor8->SetAsSensor(true);
+		sensor8->collision_listeners.add(this);
+
+		s9.size = vec3(12, 5, 1);
+		s9.SetPos(110, 4.5f, 237);
+		s9.SetRotation(-73, vec3(0, 1, 0));
+		sensor9 = App->physics->AddBody(s9, 0.0f);
+		sensor9->SetAsSensor(true);
+		sensor9->collision_listeners.add(this);
 	//Seaparation bar
 		{
 			PhysBody3D* pilon = App->physics->AddWall(0, 0, 50, 0.1f, 0);
@@ -225,7 +284,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddWall(-58, 0, 190, 1, 0);
 	App->physics->AddWall(-58, 0, 152, 1, 0);
 
-	App->physics->AddWall(-58, 10, 172, 20, 1);
+	//App->physics->AddWall(-58, 10, 172, 20, 1);
 	return ret;
 }
 
@@ -277,6 +336,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	//Sensor drawing
 	//sensor->GetTransform(&s.transform);
 	//s.Render();
+	//s2.Render();
 
 	plane_random_way->GetTransform(&plane_selection.transform);
 	plane_selection.Render();

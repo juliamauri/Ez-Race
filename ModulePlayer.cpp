@@ -100,7 +100,7 @@ bool ModulePlayer::Start()
 
 	vehicle->SetPos(-62, 10, 172);
 
-	App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
+	//App->camera->SelectFollowItem(vehicle, 17, 17, 1.f);
 	
 	//Sound
 	car_accel = App->audio->LoadFx("Sound/Acceleration_car.wav");
