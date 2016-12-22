@@ -65,8 +65,6 @@ public:
 
 	bool loop_clear = false;
 
-	bool game_over = false;
-
 	PhysBody3D* plane_random_way;
 	PhysBody3D* plane_random_way2;
 	Cube plane_selection;

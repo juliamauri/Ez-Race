@@ -10,6 +10,10 @@ struct PhysVehicle3D;
 #define TURN_DEGREES 20.0f * DEGTORAD
 #define BRAKE_POWER 200.0f
 
+#define TIME_GOLD 100
+#define TIME_SILVER 140
+#define TIME_BRONZE 200
+
 class ModulePlayer : public Module
 {
 public:
@@ -31,6 +35,10 @@ public:
 	uint car_accel = 0;
 	
 	Timer player_time;
+	Uint32 total_time = 0;
+	Uint32 player_record = 0;
 
 	PhysBody3D* actual_sensor = nullptr;
+
+	bool game_over = false;
 };

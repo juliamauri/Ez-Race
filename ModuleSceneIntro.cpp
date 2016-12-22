@@ -395,10 +395,18 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (end)
 	{
 		App->player->actual_sensor = sensor;
+
 		App->player->player_time.Stop();
-		game_over = true;
+		App->player->total_time = App->player->player_time.Read();
+
+		if (App->player->total_time > App->player->player_record)
+			App->player->player_record = App->player->total_time;
+
+		App->player->game_over = true;
 		end = false;
 	}
+
+
 
 	return UPDATE_CONTINUE;
 }

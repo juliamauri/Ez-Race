@@ -187,7 +187,6 @@ update_status ModulePlayer::Update(float dt)
 			pos_car *= inverse;
 			App->camera->Move(pos_car);
 		}
-
 	}
 
 	//Move wall
@@ -204,12 +203,35 @@ update_status ModulePlayer::Update(float dt)
 
 	char title[80];
 
-	if (App->scene_intro->game_over == false)
-		sprintf_s(title, "%.1f Km/h | %i seconds", vehicle->GetKmh(), player_time.Read() / 1000);
-	else if (App->scene_intro->game_over)
-		sprintf_s(title, "Total time: %i seconds", vehicle->GetKmh(), total_time / 1000);
+	if (game_over == false)
+		sprintf_s(title, "%.1f Km/h | %i seconds | Record: %i", vehicle->GetKmh(), player_time.Read() / 1000, player_record / 1000);
+	else if (game_over)
+		sprintf_s(title, "Total time: %i seconds | Record: %i", vehicle->GetKmh(), total_time / 1000, player_record / 1000);
 
 	App->window->SetTitle(title);
+
+	if (game_over)
+	{
+		if (total_time > TIME_GOLD)
+		{
+
+		}
+
+		if (total_time < TIME_GOLD && total_time >= TIME_SILVER)
+		{
+
+		}
+
+		if (total_time < TIME_SILVER && total_time >= TIME_BRONZE)
+		{
+
+		}
+
+		if (total_time < TIME_BRONZE)
+		{
+
+		}
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -226,4 +248,6 @@ void ModulePlayer::ResetCar()
 	vehicle->SetTransform(&angle);
 
 	vehicle->SetVelocityToZero();
+
+	actual_sensor = nullptr;
 }
